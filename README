@@ -1,0 +1,96 @@
+
+Gregory Trubetskoy <grisha@ispol.com> July 1997
+Chevy Chase, MD USA
+
+What this is:
+
+Nsapy is an extension to the Netscape http server that
+embeds Python interpreter within the server to allow writing
+NSAPI applications in Python.
+
+Copyright:
+
+Please read the file COPYRIGHT included here for information on
+Licensing and additional Copyright notices.
+
+Requirements:
+
+Netscape http server (FastTrack, Enterprise, etc.)
+and Python.
+
+The following was tested so far:
+
+NT 4.0 - Netscape Fasttrack, Enterprise 2.01 and 3.0
+Solaris 2.5 - Enterprise 2.01 and 3.0
+
+Documentation:
+
+Most of the documentation is provided as source code comments at
+the beginning of nsapimodule.c and nsapy.py. At the very least
+you should read these comments.
+
+I ecnourage you to read the book "Internet Programming with
+Python" (details in the COPYRIGHT file) and Netscape
+documentation at http://deleveloper.netscape.com/ to gain an
+understating of NSAPI and embedding Python.
+
+Compiling:
+
+I included binary versions here, but if you don't trust me ( I
+don't see why you should ), you should be able to compile this
+using the Makefile on UNIX or the *.mak file on NT ( MS VC++ 4.2 ).
+
+You will need sources for Python. Edit the makefile on UNIX, on
+VC++ go to Tools|Options|Directories|Library Files and edit those,
+then in Build|Setting|C/C++|Preprocessor edit Additional include
+directories.
+
+Quickstart:
+
+On Windows NT, depending on whether you have version 3.0 or 
+2.0 of Netscape server, use _nsapy30.dll or _nsapy20.dll.
+
+On Solaris, use _nsapy20.so or _nsapy30.so.
+
+1. Copy the dlls into a directory, e.g. C:\Nsapy or /usr/local/lib/nsapy. 
+
+2. Edit your server's mime.types. Add this line:
+
+type=magnus-internal/X-python-e exts=pye,pyd
+
+3. Edit your server's obj.conf file. Add these lines at the top
+of the file:
+
+Init funcs="nsapy_Init,nsapy_Service,nsapy_AuthTrans"  fn="load-modules" shlib="/usr/local/lib/nsapy/_nsapy20.so"
+( on NT: ... shlib="C:/Nsapy/_nsapy20.dll" )
+Init fn="nsapy_Init" initstring="nsapy.init()" module="nsapy"
+
+And this line in the <Object name=default> section:
+
+Service fn="nsapy_Service" method="(GET|HEAD|POST)" type="magnus-internal/X-python-e"
+
+4. Make sure that nsapy.py and nsapytest.py are in your *server*
+PYTHONPATH (i.e. don't assume that your PYTHONPATH is the same as
+what the server uses because most likely you're running as different
+users). The easiest (not wisest) thing to do is to copy them into your
+Python Lib directory. I recommend keeping all nsapy-related stuff 
+in a separate directory. Also remember that Windows Python keeps its 
+"PYTHONPATH" (global to all users) in the registry in 
+HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\1.4.0\PythonPath
+
+(I am not sure why, but I had to make a symlink from 
+/usr/local/lib/python1.4 to /usr/local/lib/python on my Solaris
+system to make it work)
+
+5. Restart the server
+
+If you get a message (on NT it will be in your event viewer) like this:
+  "nsapy_Init: after nsapy.init() no callback object found"
+doublecheck your PYTHONPATH and make sure nsapy.py is in it. 
+
+6. Try looking at http://yourhost/nsapytest.pye or
+http://yourhost/nsapytest.pyd
+
+E-mail me if this doesn't work - grisha@ispol.com
+
+That's it!

@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.01 [en] (WinNT; I) [Netscape]">
+   <TITLE>nsapy</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+Nsapy - 0.4b</H1>
+Gregory Trubetskoy, May 16 1998
+<BR>&nbsp;
+<H3> NEW: The port to Apache is here: <A HREF="/home/grisha/httpdapy/">
+Httpdapy 0.1b. </A></H3>
+<P>NEW: A precompiled version of the Windows DLL for Python 1.5 is available 
+<a href="1.5/_nsapy30.dll">here</a> (Netscape 3.0 server).
+<H2>What is it?</H2>
+Nsapy is an extension to the
+<A HREF="http://home.netscape.com/comprod/server_central/support/faq/enterprise_faq.html">
+Netscape http server</A> that embeds <A HREF="http://www.python.org/">Python</A>
+within the server using <A HREF="http://home.netscape.com/newsref/std/server_api.html">NSAPI</A>.
+Simply speaking, Nsapy allows you to write real NSAPI applications using
+Python.
+<BR>&nbsp;
+<H2>
+Who is responsible for it?</H2>
+Original implementation was conceived by Aaron Watters and published in
+the book <A HREF="http://www.fsbassociates.com/books/python.htm">"Internet
+Programming with Python"</A>. I modified this code quite a bit and added
+several features to it. What you will find here is quite different from
+<A HREF="http://starship.skyport.net/crew/aaron_watters/embed/">what's
+in the book</A>, though the underlying mechanism is the same.
+
+<P>I also added a Copyright. This was done mainly to clarify that Nsapy
+is indeed free, and to make sure that the name isn't used anywhere else.
+See <A HREF="http://www.ispol.com/home/grisha/nsapy/COPYRIGHT">COPYRIGHT</A>
+for details.
+<BR>&nbsp;
+<H2>
+What's so good about it?</H2>
+For one, you don't have to be an expert C programmer to create NSAPI applications.
+In fact, using Nsapy may be easier than <A HREF="http://hoohoo.ncsa.uiuc.edu/cgi/">CGI</A>,
+once you figure it out. I also think it's easier and more flexible than
+<A HREF="http://search.netscape.com/comprod/products/tools/livewire_datasheet.html">LiveWire</A>
+at this point.
+
+<P>Second advantage is speed. Your Python script will run within the server
+itself, not as a separate process. In this respect, Nsapy has the same
+advantage as <A HREF="http://www.fastcgi.com/">FastCGI</A>, ISAPI, etc.
+
+<P>Yet another advantage is the ability to perform initialization at server
+startup. Because Nsapy programs run within the server's memory space, all
+the variables persist for as long as the server is running. This was the
+main reason why I decided to get into this in the first place. I had a
+CGI application that loaded a bunch of lookup files with every hit. This
+was taking too much time, so I decided to use NSAPI. Now, I load the lookup
+files at server startup time and keep them in dictionaries. Needless to
+say, this was a tremendous performance boost.
+
+<P>There are other things that Nsapy can do. You can, for example, provide
+a custom authentication mechanism using a Python script. With a wealth
+of <A HREF="http://www.python.org/ftp/python/contrib/Database/">database
+modules available for Python</A>, it is very easy to store user logins
+and passwords in your own custom database.
+<BR>&nbsp;
+<H2>
+What's new in this version?</H2>
+Support for extensive logging, including thread id's.
+
+<P>Support for critical sections. Although Python has its own thread locking
+support, I found it flaky when used in Nsapy. Netscape's crit_* functions,
+however are rock-sold. There is now a Python interface to crit_init(),
+crit_enter() and crit_exit().
+<BR>&nbsp;
+<H2>
+How much is it?</H2>
+Nsapy is available <I>free</I> of charge, see the <A HREF="http://www.ispol.com/home/grisha/nsapy/COPYRIGHT">COPYRIGHT</A>
+file though.
+<BR>&nbsp;
+<H2>
+Where can I get it?</H2>
+The current version is not yet of production quality, but seems to be very
+stable. Because compiling this involves having Python sources and may be
+more trouble than you may want to get into right now, I have compiled binaries
+for windows NT (Intel) and&nbsp; Solaris (SPARC). These are the only OS's
+that I have Netscape servers for, feel free to port it to anything else
+and please let me know if you succeed. To download the latest version click
+here <A HREF="http://www.ispol.com/home/grisha/nsapy/nsapy-0.4b.zip">http://www.ispol.com/home/grisha/nsapy/nsapy-0.4b.zip</A>
+(NT) or here <A HREF="http://www.ispol.com/home/grisha/nsapy/nsapy-0.4b.tar.gz">http://www.ispol.com/home/grisha/nsapy/nsapy-0.4b.tar.gz</A>&nbsp;
+(Solaris). If you want source only, look here <A HREF="http://www.ispol.com/home/grisha/nsapy/.">http://www.ispol.com/home/grisha/nsapy/.</A>
+<H2>
+Where is the documentation?</H2>
+At this point I only have a small <A HREF="http://www.ispol.com/home/grisha/nsapy/nsapy.readme">readme</A>.
+There is also documentation in the source files <A HREF="http://www.ispol.com/home/grisha/nsapy/nsapimod.c">nsapimod.c</A>
+and <A HREF="http://www.ispol.com/home/grisha/nsapy/nsapy.py">nsapy.py</A>.
+
+<P>Enjoy!
+
+<P><A HREF="mailto:grisha@ispol.com">Gregory ( Grisha ) Trubetskoy</A>
+<BR>&nbsp;
+</BODY>
+</HTML>
